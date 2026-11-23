@@ -35,6 +35,15 @@ def main() -> int:
         os.makedirs(directory, exist_ok=True)
     with open(output_path, "w", encoding="utf-8", newline="") as handle:
         handle.write(EMOJI)
+    # Verify what was written: exactly the one emoji, nothing else.
+    # A grader run that cannot write its entry should fail loudly
+    # instead of leaving a stale or partial file behind.
+    with open(output_path, "r", encoding="utf-8", newline="") as handle:
+        written = handle.read()
+    if written != EMOJI:
+        print(f"error: {output_path} holds {written!r}, not the one emoji",
+              file=sys.stderr)
+        return 1
     return 0
 
 
